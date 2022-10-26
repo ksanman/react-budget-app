@@ -1,13 +1,13 @@
 import { ThemeProvider } from '@mui/system';
 import './App.css';
-import ResponsiveDrawer from './Components/Main';
+import Main from './Components/Main';
 import { darkTheme } from './themes/themes';
 
 function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <div className="App">
-        <ResponsiveDrawer />
+        <Main />
       </div>
     </ThemeProvider>
   );

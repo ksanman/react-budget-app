@@ -1,4 +1,5 @@
-import { Card, CardContent } from "@mui/material";
+import { Edit } from "@mui/icons-material";
+import { Card, CardContent, CardHeader, IconButton, Tooltip } from "@mui/material";
 import BudgetCategoryOverview from "./budget-category-overview";
 
 export default function BudgetOverview() {
@@ -24,9 +25,11 @@ export default function BudgetOverview() {
     expected: 0
  }]
  return(
-    <Card>
+    <Card sx={{flex: 1}}>
+        <CardHeader title="Budget" action={<Tooltip title="Edit Budget"><IconButton><Edit/></IconButton></Tooltip>}>
+        </CardHeader>
         <CardContent>
-            <div style={{display: 'flex', flexDirection: 'row'}}>
+            <div style={{display: 'flex', flexDirection: 'column'}}>
                 {budget.map((b, i) => (
                     <BudgetCategoryOverview key={i} 
                         category={b.category} 

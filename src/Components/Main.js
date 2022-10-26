@@ -4,22 +4,42 @@ import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
 import MoneyIcon from '@mui/icons-material/Money'
-import MonthPicker from './month-picker';
-import MonthSpending from './month-spending';
-import BudgetOverview from './budget-overview';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+import { Tab, Tabs } from '@mui/material';
+import HomeView from './home-view';
+import TabPanel from './tab-panel';
+import Budgets from './budgets';
+import Transactions from './transactions';
 
 const drawerWidth = 240;
 
-export default function ClippedDrawer() {
-  const tabs = ['Home', 'Budgets'];
+export default function Main() {
+  const [currentTab, setCurrentTab] = React.useState(0);
+  const tabs = [{
+      id: 0,
+      name: 'Home',
+      visible: true,
+      icon: <HomeIcon />
+    },{
+      id: 1,
+      name: 'Budgets',
+      visible: true,
+      icon: <MoneyIcon />
+    },{
+      id: 2,
+      name: 'Transaction',
+      visible: true,
+      icon: <CreditCardIcon />
+  }, {
+    id: 3,
+    name: 'Budget',
+    visible: false,
+    icon: ''
+  }];
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -40,25 +60,34 @@ export default function ClippedDrawer() {
       >
         <Toolbar />
         <Box sx={{ overflow: 'auto' }}>
-          <List>
-            {tabs.map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <HomeIcon /> : <MoneyIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
+          <Tabs 
+          orientation="vertical"
+          variant="scrollable"
+          value={currentTab}
+          onChange={(event, newValue) => setCurrentTab(newValue)}>
+            {tabs.map((tab, index) => {
+              if(tab.visible) {
+                return (
+                <Tab key={index} value={tab.id} label={tab.name} />
+                );
+              } else {
+                return '';
+              }
+            })}
+          </Tabs>
         </Box>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1 }}>
         <Toolbar />
-        <MonthPicker />
-        <MonthSpending />
-        <BudgetOverview />
+        <TabPanel value={currentTab} index={0}>
+          <HomeView />
+        </TabPanel>
+        <TabPanel value={currentTab} index={1}>
+          <Budgets />
+        </TabPanel>
+        <TabPanel value={currentTab} index={2}>
+          <Transactions />
+        </TabPanel>
       </Box>
     </Box>
   );
