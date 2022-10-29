@@ -13,43 +13,44 @@ import HomeView from './home-view';
 import TabPanel from './tab-panel';
 import Budgets from './budgets';
 import Transactions from './transactions';
+import EditBudget from './edit-budget';
+import { useSelector } from 'react-redux';
+import { selectBudgets } from '../slices/budget-slice';
 
 const drawerWidth = 240;
 
 export default function Main() {
-  const [currentTab, setCurrentTab] = React.useState(0);
+  const createBudgetTab = 3;
+  const budgets = useSelector(selectBudgets);
+  const hasBudgets = budgets && budgets.length > 0;
+
+  const [currentTab, setCurrentTab] = React.useState(hasBudgets ? 0 : createBudgetTab);
   const tabs = [{
       id: 0,
       name: 'Home',
-      visible: true,
       icon: <HomeIcon />
     },{
       id: 1,
       name: 'Budgets',
-      visible: true,
       icon: <MoneyIcon />
     },{
       id: 2,
       name: 'Transaction',
-      visible: true,
       icon: <CreditCardIcon />
-  }, {
-    id: 3,
-    name: 'Budget',
-    visible: false,
-    icon: ''
   }];
+ 
+  const updateTab = (event, value) => {
+    if(!hasBudgets) {
+      setCurrentTab(createBudgetTab);
+    } else if(value) {
+      setCurrentTab(value);
+    } else {
+      setCurrentTab(0);
+    }
+  };
 
-  return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-        <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            Budgets
-          </Typography>
-        </Toolbar>
-      </AppBar>
+  const getMainView = () => (
+    <Box>
       <Drawer
         variant="permanent"
         sx={{
@@ -64,15 +65,11 @@ export default function Main() {
           orientation="vertical"
           variant="scrollable"
           value={currentTab}
-          onChange={(event, newValue) => setCurrentTab(newValue)}>
+          onChange={updateTab}>
             {tabs.map((tab, index) => {
-              if(tab.visible) {
-                return (
-                <Tab key={index} value={tab.id} label={tab.name} />
-                );
-              } else {
-                return '';
-              }
+              return (
+              <Tab key={index} value={tab.id} label={tab.name} />
+              );
             })}
           </Tabs>
         </Box>
@@ -89,6 +86,29 @@ export default function Main() {
           <Transactions />
         </TabPanel>
       </Box>
+    </Box>
+    );
+
+  const getNoBudgetsView = () => (
+    <Box sx={{flexGrow: 1}}>
+      <Toolbar />
+      <EditBudget message="Welcome! To get started, create a budget."/>
+    </Box>
+  )
+
+  const view = hasBudgets ? getMainView() : getNoBudgetsView();
+
+  return (
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+        <Toolbar>
+          <Typography variant="h6" noWrap component="div">
+            Budgets
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      {view}
     </Box>
   );
 }

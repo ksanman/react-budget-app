@@ -1,0 +1,32 @@
+import { createSlice } from '@reduxjs/toolkit';
+
+export const budgetSlice = createSlice({
+    name: 'budgets',
+    initialState: {
+        value: []
+    },
+    reducers: {
+        addBudget: (state, action) => {
+            const newId = Math.max(Math.max(...state.value.map(v => v.id)), 0) + 1;
+            state.value.push({id: newId, name: action.payload});
+        },
+        removeBudget: (state, action) => {
+            state.value = state.value.filter(s => s.id !== action.payload.id);
+        },
+        updateBudget: (state, action) => {
+            const item = state.value.find(s => s.id === action.payload.id);
+            const index = state.value.indexOf(item);
+            if(index > -1) {
+                state.value[index] = action.payload;
+            } else {
+                console.warn('UpdateBudgets: Item not found');
+            }
+        }
+    }
+});
+
+export const { addBudget, removeBudget, updateBudget } = budgetSlice.actions;
+
+export const selectBudgets= state => state.budgets.value;
+
+export default budgetSlice.reducer;
