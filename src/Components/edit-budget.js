@@ -1,8 +1,11 @@
 import { Button, Card, CardContent, CardHeader, TextField } from "@mui/material";
 import { useState } from "react";
 import EditBudgetCategory from "./edit-budget-category";
+import { useDispatch } from "react-redux";
+import addBudget from '../slices/budget-slice';
 
 export default function EditBudget(props) {
+    const dispatch = useDispatch();
     const {budget, message} = props;
     const title = message ? message : budget ? 'Edit Budget' : 'Create Budget';
     const budgetCats = budget?.budgetCategories ?? [];
@@ -20,11 +23,12 @@ export default function EditBudget(props) {
     const handleSaveClick = () => {
         console.debug('Save clicked!');
         const bud = {
+            id: 0,
             budgetCategories: budgetCategories,
             name: name
         };
         console.debug(bud);
-        
+        dispatch(addBudget(bud));
     }
 
     const handleRemoveClicked = (key) => {

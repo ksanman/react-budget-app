@@ -8,7 +8,12 @@ export const budgetSlice = createSlice({
     reducers: {
         addBudget: (state, action) => {
             const newId = Math.max(Math.max(...state.value.map(v => v.id)), 0) + 1;
-            state.value.push({id: newId, name: action.payload});
+            const budget = {
+                id: newId,
+                name: action.payload.name,
+                budgetCategories: action.payload.budgetCategories
+            };
+            state.value.push(budget);
         },
         removeBudget: (state, action) => {
             state.value = state.value.filter(s => s.id !== action.payload.id);

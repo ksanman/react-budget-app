@@ -40,6 +40,13 @@ export default function EditBudgetCategory(props) {
       }
     };
 
+    const categoryCompare = (option, value) => {
+      if(typeof value === 'string') {
+        return option.name === value;
+      }
+      return option.name === value.name;
+    } 
+
     const onChange = () => {
       const budgetCategory = {
         category: category,
@@ -84,7 +91,7 @@ export default function EditBudgetCategory(props) {
                     return option.name
                 }}
                 renderOption={(props, option) => <li {...props}>{option.name}</li>}
-                isOptionEqualToValue={(option, value) => option.name === value.name}
+                isOptionEqualToValue={categoryCompare}
             />
             <Box sx={{marginY: 2}}>
               <FormControl>
