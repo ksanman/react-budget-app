@@ -53,7 +53,7 @@ export default function RecentTransactions() {
                                         <TableCell>{row.date}</TableCell>
                                         <TableCell>{row.amount.toFixed(2)}</TableCell>
                                         <TableCell>{row.description}</TableCell>
-                                        <TableCell>{row.category}</TableCell>
+                                        <TableCell>{row.category.name}</TableCell>
                                         <TableCell>{row.type}</TableCell>
                                         <TableCell>{row.account}</TableCell>
                                     </TableRow>

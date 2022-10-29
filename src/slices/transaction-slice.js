@@ -8,7 +8,7 @@ export const transactionSlice = createSlice({
             date: new Date().toDateString(),
             amount: -100,
             description: 'Sams Club',
-            category: 'Groceries',
+            category: {id:1, name:'Groceries'},
             type: 'Expense',
             account: 'Checking'
         },{
@@ -16,7 +16,7 @@ export const transactionSlice = createSlice({
             date: new Date().toDateString(),
             amount: -25,
             description: 'Sams Club',
-            category: 'Gas',
+            category: {id: 3, name: 'Gas'},
             type: 'Expense',
             account: 'Checking'
         },{
@@ -24,7 +24,7 @@ export const transactionSlice = createSlice({
             date: new Date().toDateString(),
             amount: -35,
             description: 'Rocky Mountain',
-            category: 'Utilities',
+            category: {id: 2, name: 'Utilities'},
             type: 'Expense',
             account: 'Checking'
         },{
@@ -32,7 +32,7 @@ export const transactionSlice = createSlice({
             date: new Date().toDateString(),
             amount: 1500,
             description: 'Work',
-            category: 'Paycheck',
+            category: {id: 4, name: 'Paycheck'},
             type: 'Income',
             account: 'Checking'
         }]

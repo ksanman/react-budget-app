@@ -4,20 +4,19 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useState } from "react";
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { useSelector, useDispatch } from 'react-redux'
-import { addCategory, selectCategories } from '../slices/category-slice';
 import { addAccount, selectAccounts} from '../slices/accounts-slice';
 import { addTransaction } from "../slices/transaction-slice";
+import CategoryPicker from "./category-picker";
 
 const filter = createFilterOptions();
 
 export default function TransactionDialog(props) {
     const { onClose, transaction, open } = props;
 
-    const categories = useSelector(selectCategories);
     const accounts = useSelector(selectAccounts);
 
     const title = (transaction ? 'Edit' : 'Add') + ' Transaction';
-    const [date, setDate] = useState(transaction ? transaction.date : new Date());
+    const [date, setDate] = useState(transaction ? transaction.date : new Date().toDateString());
     const [amount, setAmount] = useState(transaction ? Math.abs(transaction.amount) : 0);
     const [description, setDescription] = useState(transaction ? transaction.description : '');
     const [category, setCategory] = useState(transaction ? transaction.category : '');
@@ -48,6 +47,10 @@ export default function TransactionDialog(props) {
 
     const handleTypeChange = (event) => {
         setType(event.target.value);
+    }
+
+    const onCategoryChange = (category) => {
+      setCategory(category)
     }
 
     const dispatch = useDispatch();
@@ -83,51 +86,7 @@ export default function TransactionDialog(props) {
                 type='text'
                 variant="standard"
             />
-            <Autocomplete 
-                disablePortal
-                options={categories}
-                value={category}
-                onChange={(event, newValue) => {
-                    if (typeof newValue === 'string') {
-                      setCategory(newValue);
-                    } else if (newValue && newValue.inputValue) {
-                      // Create a new value from the user input
-                      dispatch(addCategory(newValue.inputValue))
-                      setCategory(newValue.inputValue);
-                      
-                    } else {
-                      setCategory(newValue);
-                    }
-                  }}
-                  filterOptions={(options, params) => {
-                    const filtered = filter(options, params);
-            
-                    const { inputValue } = params;
-                    // Suggest the creation of a new value
-                    const isExisting = options.some((option) => inputValue === option.name);
-                    if (inputValue !== '' && !isExisting) {
-                      filtered.push({
-                        inputValue,
-                        name: `Add "${inputValue}"`,
-                      });
-                    }
-            
-                    return filtered;
-                  }}
-                renderInput={(params) => <TextField {...params} label="Category" variant="standard"/>}
-                getOptionLabel={(option) => {
-                    if(typeof option === 'string') {
-                        return option;
-                    }
-                    if(option.inputValue) {
-                        return option.inputValue;
-                    }
-
-                    return option.name
-                }}
-                renderOption={(props, option) => <li {...props}>{option.name}</li>}
-                isOptionEqualToValue={(option, value) => option.name === value.name}
-            />
+            <CategoryPicker onChange={onCategoryChange} />
             <FormControl variant="standard" sx={{marginTop: "10px"}}>
                 <InputLabel>Type</InputLabel>
                 <Select
