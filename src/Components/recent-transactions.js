@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Add, Visibility } from "@mui/icons-material";
 import { Card, CardContent, CardHeader, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from "@mui/material";
-import { format } from 'date-fns';
 import { useSelector } from 'react-redux';
 import { selectTransactions } from '../slices/transaction-slice';
 import TransactionDialog from "./transaction-dialog";
