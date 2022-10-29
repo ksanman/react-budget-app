@@ -9,32 +9,32 @@ export const transactionSlice = createSlice({
             amount: -100,
             description: 'Sams Club',
             category: {id:1, name:'Groceries'},
-            type: 'Expense',
-            account: 'Checking'
+            type: 0,
+            account: {id: 1, name: 'Checking'}
         },{
             id: 1,
             date: new Date().toDateString(),
             amount: -25,
             description: 'Sams Club',
             category: {id: 3, name: 'Gas'},
-            type: 'Expense',
-            account: 'Checking'
+            type: 0,
+            account: {id: 1, name: 'Checking'}
         },{
             id: 2,
             date: new Date().toDateString(),
             amount: -35,
             description: 'Rocky Mountain',
             category: {id: 2, name: 'Utilities'},
-            type: 'Expense',
-            account: 'Checking'
+            type: 0,
+            account: {id: 1, name: 'Checking'}
         },{
             id: 3,
             date: new Date().toDateString(),
             amount: 1500,
             description: 'Work',
             category: {id: 4, name: 'Paycheck'},
-            type: 'Income',
-            account: 'Checking'
+            type: 1,
+            account: {id: 1, name: 'Checking'}
         }]
     },
     reducers: {

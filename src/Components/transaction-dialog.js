@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Button, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useState } from "react";
@@ -11,7 +11,7 @@ import CategoryPicker from "./category-picker";
 const filter = createFilterOptions();
 
 export default function TransactionDialog(props) {
-    const { onClose, transaction, open } = props;
+    const { transaction } = props;
 
     const accounts = useSelector(selectAccounts);
 
@@ -24,7 +24,7 @@ export default function TransactionDialog(props) {
     const [account, setAccount] = useState(transaction ? transaction.account : '');
 
     const handleClose = () => {
-        onClose(transaction);
+        props.onClose();
     }
 
     const handleSave = () => {
@@ -34,7 +34,7 @@ export default function TransactionDialog(props) {
             amount: type === 0 ? -amount : amount,
             description: description,
             category: category,
-            type: type === 0 ? 'Expense' : 'Income',
+            type: type,
             account: account
         };
 
@@ -42,7 +42,7 @@ export default function TransactionDialog(props) {
             dispatch(addTransaction(savedTransaction));
         }
 
-        onClose(transaction);
+        props.onClose();
     }
 
     const handleTypeChange = (event) => {
@@ -56,8 +56,7 @@ export default function TransactionDialog(props) {
     const dispatch = useDispatch();
 
     return ( 
-    <form>
-        <Dialog onClose={handleClose} open={open}>
+        <div>
         <DialogTitle>{title}</DialogTitle>
         <DialogContent sx={{display: 'flex', flexDirection: 'column'}}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -142,14 +141,13 @@ export default function TransactionDialog(props) {
                 }}
                 renderOption={(props, option) => <li {...props}>{option.name}</li>}
                 isOptionEqualToValue={(option, value) => option.name === value.name}
+                freeSolo
             />
         </DialogContent>
         <DialogActions>
             <Button type="button" onClick={handleClose} color="error">Cancel</Button>
-            <Button type="submit" onClick={handleSave}>Save</Button>
+            <Button type="button" onClick={handleSave}>Save</Button>
         </DialogActions>
-           
-        </Dialog>
-    </form>
+    </div>
     )
 }

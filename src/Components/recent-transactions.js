@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Add, Visibility } from "@mui/icons-material";
-import { Card, CardContent, CardHeader, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from "@mui/material";
+import { Card, CardContent, CardHeader, Dialog, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from "@mui/material";
 import { useSelector } from 'react-redux';
 import { selectTransactions } from '../slices/transaction-slice';
 import TransactionDialog from "./transaction-dialog";
@@ -14,7 +14,7 @@ export default function RecentTransactions() {
         setTransactionOpen(true);
     };
 
-    const handleClose = (value) => {
+    const handleClose = () => {
         setTransactionOpen(false);
     };
 
@@ -54,8 +54,8 @@ export default function RecentTransactions() {
                                         <TableCell>{row.amount.toFixed(2)}</TableCell>
                                         <TableCell>{row.description}</TableCell>
                                         <TableCell>{row.category.name}</TableCell>
-                                        <TableCell>{row.type}</TableCell>
-                                        <TableCell>{row.account}</TableCell>
+                                        <TableCell>{row.type === 0 ? 'Expense' : 'Income'}</TableCell>
+                                        <TableCell>{row.account.name}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -63,10 +63,9 @@ export default function RecentTransactions() {
                     </TableContainer>
                 </CardContent>
             </Card>
-            <TransactionDialog 
-                open={transactionOpen} 
-                onClose={handleClose}
-            />
+            <Dialog open={transactionOpen}>
+                <TransactionDialog onClose={handleClose} />
+            </Dialog>
         </div>
     )
 }

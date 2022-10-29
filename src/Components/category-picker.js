@@ -86,6 +86,7 @@ export default function CategoryPicker(props) {
                 renderOption={(props, option) => <li {...props}>{option.name}</li>}
                 isOptionEqualToValue={categoryCompare}
                 sx={{border: isValid ? 'none' : '1px solid red'}}
+                freeSolo
             />
     )
 }
