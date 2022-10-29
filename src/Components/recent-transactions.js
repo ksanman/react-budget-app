@@ -51,7 +51,7 @@ export default function RecentTransactions() {
                             <TableBody>
                                 {rows.map((row) => (
                                     <TableRow key={row.id}>
-                                        <TableCell>{format(row.date, 'MM/dd/yyyy')}</TableCell>
+                                        <TableCell>{row.date}</TableCell>
                                         <TableCell>{row.amount.toFixed(2)}</TableCell>
                                         <TableCell>{row.description}</TableCell>
                                         <TableCell>{row.category}</TableCell>

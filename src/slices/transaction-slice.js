@@ -5,7 +5,7 @@ export const transactionSlice = createSlice({
     initialState: {
         value: [{
             id: 0,
-            date: new Date(),
+            date: new Date().toDateString(),
             amount: -100,
             description: 'Sams Club',
             category: 'Groceries',
@@ -13,7 +13,7 @@ export const transactionSlice = createSlice({
             account: 'Checking'
         },{
             id: 1,
-            date: new Date(),
+            date: new Date().toDateString(),
             amount: -25,
             description: 'Sams Club',
             category: 'Gas',
@@ -21,7 +21,7 @@ export const transactionSlice = createSlice({
             account: 'Checking'
         },{
             id: 2,
-            date: new Date(),
+            date: new Date().toDateString(),
             amount: -35,
             description: 'Rocky Mountain',
             category: 'Utilities',
@@ -29,7 +29,7 @@ export const transactionSlice = createSlice({
             account: 'Checking'
         },{
             id: 3,
-            date: new Date(),
+            date: new Date().toDateString(),
             amount: 1500,
             description: 'Work',
             category: 'Paycheck',

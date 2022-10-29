@@ -62,8 +62,7 @@ export default function TransactionDialog(props) {
                 label="Date"
                 value={date}
                 onChange={(newValue) => {
-                    console.log(newValue);
-                    setDate(newValue);
+                    setDate(newValue.toDateString());
                 }}
                 renderInput={(params) => <TextField {...params}  variant="standard"/>}
                 />

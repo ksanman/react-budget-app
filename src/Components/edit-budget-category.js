@@ -14,12 +14,17 @@ export default function EditBudgetCategory(props) {
     const categories = useSelector(selectCategories);
     const [category, setCategory] = useState(budgetCategory.category ?? undefined);
     const [amount, setAmount] = useState(budgetCategory.amount ?? 0);
+    const [isValid, setIsValid] = useState(budgetCategory.category ?? false);
+
     const dispatch = useDispatch();
 
     const handleSliderChanged = (event, newValue) => {
       budgetCategory.value = newValue;
       setAmount(newValue);
-      onChange();
+      onChange({
+        category: category,
+        amount: newValue
+      });
     }
     
     const handleRemoveClicked = () => {
@@ -27,17 +32,30 @@ export default function EditBudgetCategory(props) {
     };
 
     const handleCategoryChange = (event, newValue) => {
-      if (typeof newValue === 'string') {
-        setCategory(newValue);
-      } else if (newValue && newValue.inputValue) {
+      let category;
+      if(typeof category === 'string') {
+        category = {
+          id: -1,
+          category: newValue
+        };
+      }
+      else if (newValue && newValue.inputValue) {
         // Create a new value from the user input
         dispatch(addCategory(newValue.inputValue));
-        setCategory(newValue.inputValue);
-        onChange();
-        
+        category = {
+          id: Math.max(...categories.map(c => c.id) + 1, 0),
+          name: newValue.inputValue
+        };
       } else {
-        setCategory(newValue);
+        category = newValue
       }
+
+      setCategory(category);
+      
+      onChange({
+        category: category,
+        amount: amount
+      });
     };
 
     const categoryCompare = (option, value) => {
@@ -47,13 +65,30 @@ export default function EditBudgetCategory(props) {
       return option.name === value.name;
     } 
 
-    const onChange = () => {
-      const budgetCategory = {
-        category: category,
-        amount: amount
-      }
+    const onChange = (budgetCategory) => {
       props.onChange(budgetCategory);
+
+      props.onChange(budgetCategory);
+      const valid = budgetCategory.category !== '';
+      setIsValid(valid);
+      props.onValidationChange(valid);
     }
+
+    const filterCategories = (options, params) => {
+      const filtered = filter(options, params);
+
+      const { inputValue } = params;
+      // Suggest the creation of a new value
+      const isExisting = options.some((option) => inputValue === option.name);
+      if (inputValue !== '' && !isExisting) {
+        filtered.push({
+          inputValue,
+          name: `Add "${inputValue}"`,
+        });
+      }
+
+      return filtered;
+    };
 
     return (
         <Card>
@@ -64,21 +99,7 @@ export default function EditBudgetCategory(props) {
                 options={categories}
                 value={category}
                 onChange={handleCategoryChange}
-                filterOptions={(options, params) => {
-                    const filtered = filter(options, params);
-            
-                    const { inputValue } = params;
-                    // Suggest the creation of a new value
-                    const isExisting = options.some((option) => inputValue === option.name);
-                    if (inputValue !== '' && !isExisting) {
-                      filtered.push({
-                        inputValue,
-                        name: `Add "${inputValue}"`,
-                      });
-                    }
-            
-                    return filtered;
-                  }}
+                filterOptions={filterCategories}
                 renderInput={(params) => <TextField {...params} label="Category" variant="standard"/>}
                 getOptionLabel={(option) => {
                     if(typeof option === 'string') {
@@ -92,6 +113,7 @@ export default function EditBudgetCategory(props) {
                 }}
                 renderOption={(props, option) => <li {...props}>{option.name}</li>}
                 isOptionEqualToValue={categoryCompare}
+                sx={{border: isValid ? 'none' : '1px solid red'}}
             />
             <Box sx={{marginY: 2}}>
               <FormControl>

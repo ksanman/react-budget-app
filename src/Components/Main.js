@@ -20,11 +20,10 @@ import { selectBudgets } from '../slices/budget-slice';
 const drawerWidth = 240;
 
 export default function Main() {
-  const createBudgetTab = 3;
   const budgets = useSelector(selectBudgets);
   const hasBudgets = budgets && budgets.length > 0;
 
-  const [currentTab, setCurrentTab] = React.useState(hasBudgets ? 0 : createBudgetTab);
+  const [currentTab, setCurrentTab] = React.useState(0);
   const tabs = [{
       id: 0,
       name: 'Home',
@@ -40,9 +39,7 @@ export default function Main() {
   }];
  
   const updateTab = (event, value) => {
-    if(!hasBudgets) {
-      setCurrentTab(createBudgetTab);
-    } else if(value) {
+    if(value) {
       setCurrentTab(value);
     } else {
       setCurrentTab(0);
@@ -50,7 +47,7 @@ export default function Main() {
   };
 
   const getMainView = () => (
-    <Box>
+    <Box sx={{ display: 'flex', width: '100%' }}>
       <Drawer
         variant="permanent"
         sx={{
