@@ -20,7 +20,7 @@ export default function TransactionDialog(props) {
     const [amount, setAmount] = useState(transaction ? Math.abs(transaction.amount) : 0);
     const [description, setDescription] = useState(transaction ? transaction.description : '');
     const [category, setCategory] = useState(transaction ? transaction.category : '');
-    const [type, setType] = useState(transaction ? transaction.type : 0);
+    const [type, setType] = useState(transaction ? transaction.type : 1);
     const [account, setAccount] = useState(transaction ? transaction.account : '');
 
     const handleClose = () => {
@@ -46,7 +46,7 @@ export default function TransactionDialog(props) {
     }
 
     const handleTypeChange = (event) => {
-        setType(event.target.value);
+        setType(parseInt(event.target.value));
     }
 
     const onCategoryChange = (category) => {
@@ -85,7 +85,7 @@ export default function TransactionDialog(props) {
                 type='text'
                 variant="standard"
             />
-            <CategoryPicker onChange={onCategoryChange} />
+            <CategoryPicker onChange={onCategoryChange} type={type}/>
             <FormControl variant="standard" sx={{marginTop: "10px"}}>
                 <InputLabel>Type</InputLabel>
                 <Select
@@ -93,8 +93,8 @@ export default function TransactionDialog(props) {
                     onChange={handleTypeChange}
                     label='Type'
                 >
-                    <MenuItem value={0}>Expense</MenuItem>
-                    <MenuItem value={1}>Income</MenuItem>
+                    <MenuItem value={1}>Expense</MenuItem>
+                    <MenuItem value={2}>Income</MenuItem>
                 </Select>
             </FormControl>
             <Autocomplete 

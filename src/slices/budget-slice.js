@@ -3,17 +3,18 @@ import { createSlice } from '@reduxjs/toolkit';
 export const budgetSlice = createSlice({
     name: 'budgets',
     initialState: {
-        value: [{
-            id: 1,
-            name: 'Test Budget',
-            budgetCategories: [{
-                category: {
-                    id: 1,
-                    name: 'Groceries'
-                },
-                amount: 200
-            }]
-        }]
+        // value: [{
+        //     id: 1,
+        //     name: 'Test Budget',
+        //     budgetCategories: [{
+        //         category: {
+        //             id: 1,
+        //             name: 'Groceries'
+        //         },
+        //         amount: 200
+        //     }]
+        // }]
+        value: []
     },
     reducers: {
         addBudget: (state, action) => {

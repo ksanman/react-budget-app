@@ -7,7 +7,12 @@ import { selectCategories, addCategory } from "../slices/category-slice";
 const filter = createFilterOptions();
 
 export default function CategoryPicker(props) {
-    const categories = useSelector(selectCategories);
+    let categories = useSelector(selectCategories);
+
+    if(props.type) {
+      categories = categories.filter(c => c.type === props.type);
+    }
+
     const [category, setCategory] = useState({id: -1, name: ''});
     const [isValid, setIsValid] = useState(false);
 
@@ -18,16 +23,19 @@ export default function CategoryPicker(props) {
         if(typeof category === 'string') {
           category = {
             id: -1,
-            category: newValue
+            name: newValue,
+            type: props?.type ?? 1
           };
         }
         else if (newValue && newValue.inputValue) {
           // Create a new value from the user input
-          dispatch(addCategory(newValue.inputValue));
           category = {
             id: Math.max(...categories.map(c => c.id) + 1, 0),
-            name: newValue.inputValue
+            name: newValue.inputValue, 
+            type: props?.type ?? 1
           };
+
+          dispatch(addCategory(category));
         } else {
           category = newValue
         }
