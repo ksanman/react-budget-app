@@ -47,18 +47,18 @@ export default function EditBudgetCategories(props) {
 
     return (
         <Box sx={{width: '100%'}}>
-        <Button variant={'contained'} onClick={handleOnAddBudgetClick}> Add {title}</Button>
-        {categories.map((category, index) => {
-            return (
-                <EditBudgetCategory key={index} 
-                budgetCategory={category} 
-                removeClicked={() => handleRemoveClicked(index)}
-                onChange={(budgetCategory) => onBudgetCategoryChanged(index, budgetCategory)}
-                onValidationChange={(isValid) => onBudgetCategoryValidationChanged(index, isValid)}
-                type={props?.type ?? 0}
-                />
-            )
-        })}
-    </Box>
+            <Button sx={{marginY: '10px'}} variant={'contained'} onClick={handleOnAddBudgetClick}> Add {title}</Button>
+            {categories.map((category, index) => {
+                return (
+                    <EditBudgetCategory key={index} 
+                    budgetCategory={category} 
+                    removeClicked={() => handleRemoveClicked(index)}
+                    onChange={(budgetCategory) => onBudgetCategoryChanged(index, budgetCategory)}
+                    onValidationChange={(isValid) => onBudgetCategoryValidationChanged(index, isValid)}
+                    type={props?.type ?? 0}
+                    />
+                )
+            })}
+        </Box>
     )
 }

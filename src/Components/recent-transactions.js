@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Add, Visibility } from "@mui/icons-material";
 import { Card, CardContent, CardHeader, Dialog, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from "@mui/material";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectTransactions } from '../slices/transaction-slice';
+import { updateTab } from '../slices/tab-slice';
 import TransactionDialog from "./transaction-dialog";
 
 export default function RecentTransactions() { 
@@ -18,6 +19,12 @@ export default function RecentTransactions() {
         setTransactionOpen(false);
     };
 
+    const dispatch = useDispatch();
+
+    const onViewClicked = (event) => {
+        dispatch(updateTab(2));
+    }
+
     return (
         <div>
             <Card sx={{flex: 1}}>
@@ -29,7 +36,7 @@ export default function RecentTransactions() {
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="View Transactions">
-                            <IconButton>
+                            <IconButton onClick={onViewClicked}>
                                 <Visibility />
                             </IconButton>
                         </Tooltip>

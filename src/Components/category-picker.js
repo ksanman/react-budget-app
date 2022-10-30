@@ -13,8 +13,10 @@ export default function CategoryPicker(props) {
       categories = categories.filter(c => c.type === props.type);
     }
 
-    const [category, setCategory] = useState({id: -1, name: ''});
-    const [isValid, setIsValid] = useState(false);
+    const cat = props?.category || {id: -1, name: ''};
+
+    const [category, setCategory] = useState(cat);
+    const [isValid, setIsValid] = useState(cat ? true : false);
 
     const dispatch = useDispatch();
 
@@ -80,7 +82,7 @@ export default function CategoryPicker(props) {
                 value={category}
                 onChange={handleCategoryChange}
                 filterOptions={filterCategories}
-                renderInput={(params) => <TextField {...params} label="Category" variant="standard"/>}
+                renderInput={(params) => <TextField {...params} label="Category" variant="standard" required/>}
                 getOptionLabel={(option) => {
                     if(typeof option === 'string') {
                         return option;

@@ -1,7 +1,8 @@
 import { Button, Card, CardContent, CardHeader, Stack, TextField } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import  { addBudget } from '../slices/budget-slice';
+import { updateTab } from "../slices/tab-slice";
+import  { addBudget, updateBudget } from '../slices/budget-slice';
 import EditBudgetCategories from "./edit-budget-categories";
 
 export default function EditBudget(props) {
@@ -15,20 +16,26 @@ export default function EditBudget(props) {
     const [incomeBudgets, setIncomeBudgets] = useState(incomes);
     const [expenseBudgets, setExpenseBudgets] = useState(expenses);
 
-    const [valid, setValid] = useState(false);
+    const [valid, setValid] = useState(budget ? true : false);
     const [validExpenses, setValidExpense] = useState(true);
     const [validIncome, setValidIncome] = useState(true);
     const [isValidName, setIsValidName] = useState(false);
 
 
     const handleSaveClick = () => {
-        console.debug('Save clicked!');
         const bud = {
-            id: 0,
+            id: budget?.id || 0,
             budgetCategories: incomeBudgets.concat(expenseBudgets),
             name: name
         };
-        dispatch(addBudget(bud));
+
+        if(budget) {
+            dispatch(updateBudget(bud));
+        } else {
+            dispatch(addBudget(bud));
+        }
+
+        dispatch(updateTab(0));
     }
 
     const areAllCategoriesValid = () => {
@@ -77,7 +84,7 @@ export default function EditBudget(props) {
         <Card>
             <CardHeader title={title} action={<Button variant={'contained'} onClick={handleSaveClick} disabled={!valid}>Save</Button>}></CardHeader>
             <CardContent>
-                <TextField placeholder="Budget Name" required value={name} onChange={onNameChange} />
+                <TextField placeholder="Budget Name" required value={name} onChange={onNameChange} label={'Name'}/>
 
                 <Stack direction={'row'} justifyContent={'center'} alignContent={'stretch'} spacing={2}>
                     <EditBudgetCategories 

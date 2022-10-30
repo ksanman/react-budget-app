@@ -59,7 +59,7 @@ export default function EditBudgetCategory(props) {
         <Card>
           <CardHeader action={<IconButton onClick={handleRemoveClicked}><RemoveCircle /></IconButton>}/>
           <CardContent>
-            <CategoryPicker onChange={handleCategoryChange} type={props?.type ?? 0}/>
+            <CategoryPicker onChange={handleCategoryChange} type={props?.type ?? 0} category={category}/>
             <Box sx={{marginY: 2}}>
               <FormControl>
                   <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
