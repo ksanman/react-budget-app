@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 
 export const transactionSlice = createSlice({
     name: 'transactions',
@@ -61,5 +61,21 @@ export const transactionSlice = createSlice({
 export const { addTransaction, removeTransaction, updateTransaction } = transactionSlice.actions;
 
 export const selectTransactions = state => state.transactions.value;
+
+const getTransactionsByMonth = (state, date) => {
+    const endDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    const monthlyTransactions = state.transactions.value.filter(t => {
+        const tDate = new Date(t.date);
+        return date <= tDate && tDate <= endDate; 
+    });
+    return monthlyTransactions;
+};
+
+export const selectTransactionsByMonth = (date) =>
+    createSelector(
+        [(state) => getTransactionsByMonth(state, date)],
+        (transactions) => transactions
+    );
+
 
 export default transactionSlice.reducer;

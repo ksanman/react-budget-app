@@ -1,13 +1,15 @@
 import { Add, Visibility } from "@mui/icons-material";
 import { Card, CardContent, CardHeader, Dialog, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from "@mui/material";
 import { useSelector, useDispatch } from 'react-redux';
-import { selectTransactions } from '../slices/transaction-slice';
+import { selectTransactionsByMonth } from '../slices/transaction-slice';
 import { updateTab } from '../slices/tab-slice';
 import TransactionDialog from "./transaction-dialog";
 import { useState } from "react";
+import { selectDate } from "../slices/date-slice";
 
 export default function RecentTransactions() { 
-    const rows = useSelector(selectTransactions);
+    const currentDate = useSelector(selectDate);
+    const rows = useSelector(selectTransactionsByMonth(currentDate));
 
     const [transactionOpen, setTransactionOpen] = useState(false);
 

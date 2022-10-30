@@ -4,6 +4,7 @@ import categoryReducer from './slices/category-slice';
 import accountReducer from './slices/accounts-slice';
 import budgetReducer from './slices/budget-slice';
 import tabReducer from './slices/tab-slice';
+import dateReducer from './slices/date-slice';
 
 export default configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export default configureStore({
         accounts: accountReducer,
         transactions: transactionReducer,
         budgets: budgetReducer,
-        tabs: tabReducer
+        tabs: tabReducer,
+        date: dateReducer
     }
 })

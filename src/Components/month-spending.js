@@ -2,11 +2,13 @@ import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import MonthOverview from "./month-overview";
 import { selectBudgets} from '../slices/budget-slice';
-import { selectTransactions } from '../slices/transaction-slice';
+import { selectTransactionsByMonth } from '../slices/transaction-slice';
+import { selectDate } from "../slices/date-slice";
 
 export default function MonthSpending() {
     const budget = useSelector(selectBudgets)[0];
-    const transactions = useSelector(selectTransactions);
+    const date = useSelector(selectDate);
+    const transactions = useSelector(selectTransactionsByMonth(date));
 
     const expectedExpenses = budget.budgetCategories.filter(bc => bc.category.type === 1).map(bc => bc.amount).reduce((a,b) => a + Math.abs(b), 0);
     const currentExpenses = transactions.filter(t => t.type === 1).map(t => t.amount).reduce((a,b) => a + Math.abs(b), 0);

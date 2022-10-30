@@ -3,12 +3,14 @@ import { Card, CardContent, CardHeader, IconButton, Stack, Tooltip } from "@mui/
 import BudgetCategoryOverview from "./budget-category-overview";
 import { selectBudgets } from '../slices/budget-slice';
 import { useSelector, useDispatch } from "react-redux";
-import { selectTransactions } from '../slices/transaction-slice';
+import { selectTransactionsByMonth } from '../slices/transaction-slice';
 import { updateTab } from '../slices/tab-slice';
+import { selectDate } from "../slices/date-slice";
 
 export default function BudgetOverview() {
+   const date = useSelector(selectDate);
    const budgets = useSelector(selectBudgets);
-   const transactions = useSelector(selectTransactions);
+   const transactions = useSelector(selectTransactionsByMonth(date));
    const budget = budgets[0]; //TODO create a selector for the active budget.
    const name = budget?.name || 'Budget';
    const categories = budget.budgetCategories.map(c => {
