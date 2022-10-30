@@ -5,7 +5,7 @@ export const transactionSlice = createSlice({
     initialState: {
         value: [{
             id: 0,
-            date: new Date().toDateString(),
+            date: new Date().toLocaleDateString(),
             amount: -100,
             description: 'Sams Club',
             category: {id:1, name:'Groceries', type: 1},
@@ -13,7 +13,7 @@ export const transactionSlice = createSlice({
             account: {id: 1, name: 'Checking'}
         },{
             id: 1,
-            date: new Date().toDateString(),
+            date: new Date().toLocaleDateString(),
             amount: -25,
             description: 'Sams Club',
             category: {id: 3, name: 'Gas', type: 1},
@@ -21,7 +21,7 @@ export const transactionSlice = createSlice({
             account: {id: 1, name: 'Checking'}
         },{
             id: 2,
-            date: new Date().toDateString(),
+            date: new Date().toLocaleDateString(),
             amount: -35,
             description: 'Rocky Mountain',
             category: {id: 2, name: 'Utilities', type: 1},
@@ -29,7 +29,7 @@ export const transactionSlice = createSlice({
             account: {id: 1, name: 'Checking'}
         },{
             id: 3,
-            date: new Date().toDateString(),
+            date: new Date().toLocaleDateString(),
             amount: 1500,
             description: 'Work',
             category: {id: 4, name: 'Paycheck', type: 2},

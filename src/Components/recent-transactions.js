@@ -1,15 +1,15 @@
-import * as React from 'react';
 import { Add, Visibility } from "@mui/icons-material";
 import { Card, CardContent, CardHeader, Dialog, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from "@mui/material";
 import { useSelector, useDispatch } from 'react-redux';
 import { selectTransactions } from '../slices/transaction-slice';
 import { updateTab } from '../slices/tab-slice';
 import TransactionDialog from "./transaction-dialog";
+import { useState } from "react";
 
 export default function RecentTransactions() { 
     const rows = useSelector(selectTransactions);
 
-    const [transactionOpen, setTransactionOpen] = React.useState(false);
+    const [transactionOpen, setTransactionOpen] = useState(false);
 
     const handeAddTransaction = () => {
         setTransactionOpen(true);
@@ -58,10 +58,10 @@ export default function RecentTransactions() {
                                 {rows.map((row) => (
                                     <TableRow key={row.id}>
                                         <TableCell>{row.date}</TableCell>
-                                        <TableCell>{row.amount.toFixed(2)}</TableCell>
+                                        <TableCell>{row.type === 1 ? '-' : ''}${Math.abs(row.amount).toFixed(2)}</TableCell>
                                         <TableCell>{row.description}</TableCell>
                                         <TableCell>{row.category.name}</TableCell>
-                                        <TableCell>{row.type === 0 ? 'Expense' : 'Income'}</TableCell>
+                                        <TableCell>{row.type === 1 ? 'Expense' : 'Income'}</TableCell>
                                         <TableCell>{row.account.name}</TableCell>
                                     </TableRow>
                                 ))}

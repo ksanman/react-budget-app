@@ -11,7 +11,7 @@ import CategoryPicker from "./category-picker";
 const filter = createFilterOptions();
 
 export default function TransactionDialog(props) {
-    const { transaction } = props;
+    const { transaction, onClose } = props;
 
     const accounts = useSelector(selectAccounts);
 
@@ -23,8 +23,8 @@ export default function TransactionDialog(props) {
     const [type, setType] = useState(transaction ? transaction.type : 1);
     const [account, setAccount] = useState(transaction ? transaction.account : '');
 
-    const handleClose = () => {
-        props.onClose();
+    const handleClose = (e) => {
+        onClose();
     }
 
     const handleSave = () => {
@@ -42,7 +42,7 @@ export default function TransactionDialog(props) {
             dispatch(addTransaction(savedTransaction));
         }
 
-        props.onClose();
+        onClose();
     }
 
     const handleTypeChange = (event) => {
@@ -64,7 +64,7 @@ export default function TransactionDialog(props) {
                 label="Date"
                 value={date}
                 onChange={(newValue) => {
-                    setDate(newValue.toDateString());
+                    setDate(newValue.toLocaleDateString());
                 }}
                 renderInput={(params) => <TextField {...params}  variant="standard"/>}
                 />
@@ -85,7 +85,7 @@ export default function TransactionDialog(props) {
                 type='text'
                 variant="standard"
             />
-            <CategoryPicker onChange={onCategoryChange} type={type}/>
+            <CategoryPicker onChange={onCategoryChange} type={type} category={category}/>
             <FormControl variant="standard" sx={{marginTop: "10px"}}>
                 <InputLabel>Type</InputLabel>
                 <Select
