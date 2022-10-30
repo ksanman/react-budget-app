@@ -1,5 +1,5 @@
 import { Edit } from "@mui/icons-material";
-import { Card, CardContent, CardHeader, IconButton, Tooltip } from "@mui/material";
+import { Card, CardContent, CardHeader, IconButton, Stack, Tooltip } from "@mui/material";
 import BudgetCategoryOverview from "./budget-category-overview";
 import { selectBudgets } from '../slices/budget-slice';
 import { useSelector } from "react-redux";
@@ -13,6 +13,7 @@ export default function BudgetOverview() {
    const categories = budget.budgetCategories.map(c => {
       return {
          category: c.category.name,
+         type: c.category.type,
          current: transactions.filter(t => t.category.id === c.category.id)
             .map(t => t.amount)
             .reduce((a,b) => a + Math.abs(b), 0),
@@ -24,14 +25,13 @@ export default function BudgetOverview() {
         <CardHeader title={name} action={<Tooltip title="Edit Budget"><IconButton><Edit/></IconButton></Tooltip>}>
         </CardHeader>
         <CardContent>
-            <div style={{display: 'flex', flexDirection: 'column'}}>
+            <Stack direction={'column'} spacing={2}>
                 {categories.map((b, i) => (
                     <BudgetCategoryOverview key={i} 
-                        category={b.category} 
-                        current={b.current}
-                        expected={b.expected} />
+                        budgetCategory={b}
+                     />
                 ))}
-            </div>
+            </Stack>
         </CardContent>
     </Card>
  )   

@@ -1,27 +1,30 @@
-import { LinearProgress } from "@mui/material";
+import { Card, CardContent, CardHeader, LinearProgress } from "@mui/material";
 
 export default function BudgetCategoryOverview(props) {
+    const { budgetCategory } = props;
     var value, percentage;
-    if(props.expected === 0) {
+    if(budgetCategory.expected === 0) {
         value = props.current;
         percentage = 100;
     } else {
-        value = props.current / props.expected;
+        value = budgetCategory.current / budgetCategory.expected;
         percentage = value * 100;
     }
 
     const color = value === 1 ? 'primary' : value > 1 ? 'error' : 'info';
-
+    const subTitle = budgetCategory.type === 2 ? 'Income' : 'Expense';
     return (
-        <div style={{marginLeft: '5px', marginRight: '5px'}}>
-            <h3>{props.category}</h3>
-            <LinearProgress 
-            color={color}
-            variant={'determinate'}
-            value={percentage}
-            />
-            <div>Current: ${props.current}</div>
-            <div>Expected: ${props.expected}</div>
-        </div>
+        <Card>
+            <CardHeader title={budgetCategory.category} subheader={subTitle} />
+            <CardContent>
+                <LinearProgress 
+                color={color}
+                variant={'determinate'}
+                value={percentage}
+                />
+                <div>Current: ${budgetCategory.current}</div>
+                <div>Expected: ${budgetCategory.expected}</div>
+            </CardContent>
+        </Card>
     )
 }
