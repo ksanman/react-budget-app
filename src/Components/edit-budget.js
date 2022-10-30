@@ -28,7 +28,6 @@ export default function EditBudget(props) {
             budgetCategories: incomeBudgets.concat(expenseBudgets),
             name: name
         };
-        console.debug(bud);
         dispatch(addBudget(bud));
     }
 
@@ -51,35 +50,26 @@ export default function EditBudget(props) {
         const isValid = validName && areAllCategoriesValid();
         setIsValidName(validName);
         setValid(isValid);
-
-        console.debug('valid name', validName);
-        console.debug('valid model', isValid);
     }
 
     const onExpensesValidationChanged = (isValid) => {
         setValidExpense(isValid);
-        console.debug('Valid expense', isValid);
         const isValidBudget = isValidName && validIncome && isValid;
         setValid(isValidBudget);
-        console.debug('Valid model', isValidBudget);
         
     }
 
     const onIncomeValidationChanged = (isValid) => {
         setValidIncome(isValid);
-        console.debug('Valid expense', isValid);
         const isValidBudget = isValidName && validExpenses && isValid;
         setValid(isValidBudget);
-        console.debug('Valid model', isValidBudget);
     }
     
     const onExpensesChanged = (expenses) => {
-        console.debug('expenses changed', expenses);
         setExpenseBudgets(expenses);
     }
 
     const onIncomeChanged = (income) => {
-        console.debug('income changed', income);
         setIncomeBudgets(income);
     }
 
