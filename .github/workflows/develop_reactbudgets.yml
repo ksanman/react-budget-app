@@ -54,4 +54,4 @@ jobs:
           app-name: 'reactbudgets'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7445F8BEB4A0481F9B0ABB91587D3410 }}
-          package: ./build
+          package: .
