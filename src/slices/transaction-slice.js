@@ -1,40 +1,40 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 
 export const transactionSlice = createSlice({
     name: 'transactions',
     initialState: {
         value: [{
             id: 0,
-            date: new Date(),
+            date: new Date().toLocaleDateString(),
             amount: -100,
             description: 'Sams Club',
-            category: 'Groceries',
-            type: 'Expense',
-            account: 'Checking'
+            category: {id:1, name:'Groceries', type: 1},
+            type: 1,
+            account: {id: 1, name: 'Checking'}
         },{
             id: 1,
-            date: new Date(),
+            date: new Date().toLocaleDateString(),
             amount: -25,
             description: 'Sams Club',
-            category: 'Gas',
-            type: 'Expense',
-            account: 'Checking'
+            category: {id: 3, name: 'Gas', type: 1},
+            type: 1,
+            account: {id: 1, name: 'Checking'}
         },{
             id: 2,
-            date: new Date(),
+            date: new Date().toLocaleDateString(),
             amount: -35,
             description: 'Rocky Mountain',
-            category: 'Utilities',
-            type: 'Expense',
-            account: 'Checking'
+            category: {id: 2, name: 'Utilities', type: 1},
+            type: 1,
+            account: {id: 1, name: 'Checking'}
         },{
             id: 3,
-            date: new Date(),
+            date: new Date().toLocaleDateString(),
             amount: 1500,
             description: 'Work',
-            category: 'Paycheck',
-            type: 'Income',
-            account: 'Checking'
+            category: {id: 4, name: 'Paycheck', type: 2},
+            type: 2,
+            account: {id: 1, name: 'Checking'}
         }]
     },
     reducers: {
@@ -61,5 +61,21 @@ export const transactionSlice = createSlice({
 export const { addTransaction, removeTransaction, updateTransaction } = transactionSlice.actions;
 
 export const selectTransactions = state => state.transactions.value;
+
+const getTransactionsByMonth = (state, date) => {
+    const endDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    const monthlyTransactions = state.transactions.value.filter(t => {
+        const tDate = new Date(t.date);
+        return date <= tDate && tDate <= endDate; 
+    });
+    return monthlyTransactions;
+};
+
+export const selectTransactionsByMonth = (date) =>
+    createSelector(
+        [(state) => getTransactionsByMonth(state, date)],
+        (transactions) => transactions
+    );
+
 
 export default transactionSlice.reducer;

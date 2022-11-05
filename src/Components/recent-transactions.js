@@ -1,23 +1,31 @@
-import * as React from 'react';
 import { Add, Visibility } from "@mui/icons-material";
-import { Card, CardContent, CardHeader, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from "@mui/material";
-import { format } from 'date-fns';
-import { useSelector } from 'react-redux';
-import { selectTransactions } from '../slices/transaction-slice';
+import { Card, CardContent, CardHeader, Dialog, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from "@mui/material";
+import { useSelector, useDispatch } from 'react-redux';
+import { selectTransactionsByMonth } from '../slices/transaction-slice';
+import { updateTab } from '../slices/tab-slice';
 import TransactionDialog from "./transaction-dialog";
+import { useState } from "react";
+import { selectDate } from "../slices/date-slice";
 
 export default function RecentTransactions() { 
-    const rows = useSelector(selectTransactions);
+    const currentDate = useSelector(selectDate);
+    const rows = useSelector(selectTransactionsByMonth(currentDate));
 
-    const [transactionOpen, setTransactionOpen] = React.useState(false);
+    const [transactionOpen, setTransactionOpen] = useState(false);
 
     const handeAddTransaction = () => {
         setTransactionOpen(true);
     };
 
-    const handleClose = (value) => {
+    const handleClose = () => {
         setTransactionOpen(false);
     };
+
+    const dispatch = useDispatch();
+
+    const onViewClicked = (event) => {
+        dispatch(updateTab(2));
+    }
 
     return (
         <div>
@@ -30,7 +38,7 @@ export default function RecentTransactions() {
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="View Transactions">
-                            <IconButton>
+                            <IconButton onClick={onViewClicked}>
                                 <Visibility />
                             </IconButton>
                         </Tooltip>
@@ -51,12 +59,12 @@ export default function RecentTransactions() {
                             <TableBody>
                                 {rows.map((row) => (
                                     <TableRow key={row.id}>
-                                        <TableCell>{format(row.date, 'MM/dd/yyyy')}</TableCell>
-                                        <TableCell>{row.amount.toFixed(2)}</TableCell>
+                                        <TableCell>{row.date}</TableCell>
+                                        <TableCell>{row.type === 1 ? '-' : ''}${Math.abs(row.amount).toFixed(2)}</TableCell>
                                         <TableCell>{row.description}</TableCell>
-                                        <TableCell>{row.category}</TableCell>
-                                        <TableCell>{row.type}</TableCell>
-                                        <TableCell>{row.account}</TableCell>
+                                        <TableCell>{row.category.name}</TableCell>
+                                        <TableCell>{row.type === 1 ? 'Expense' : 'Income'}</TableCell>
+                                        <TableCell>{row.account.name}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -64,10 +72,9 @@ export default function RecentTransactions() {
                     </TableContainer>
                 </CardContent>
             </Card>
-            <TransactionDialog 
-                open={transactionOpen} 
-                onClose={handleClose}
-            />
+            <Dialog open={transactionOpen}>
+                <TransactionDialog onClose={handleClose} />
+            </Dialog>
         </div>
     )
 }
