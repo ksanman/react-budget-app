@@ -37,10 +37,12 @@ export default function TabView() {
    
     const onTabChange = (event, value) => {
       if(value) {
-        dispatch(updateTab(value));
+        dispatch(updateTab(parseInt(value)));
       } else {
         dispatch(updateTab(0));
       }
+
+      handleExpandClicked();
     };
 
     const handleExpandClicked = () => {

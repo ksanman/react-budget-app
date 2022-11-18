@@ -32,11 +32,17 @@ export default function BudgetOverview() {
 
 
  return(
-    <Card sx={{flex: 1}}>
+    <Card sx={{flex: 1, maxWidth: {
+      xs: '100%',
+      sm: '100%',
+      md: '100%',
+      lg: '100%'
+    }}}>
         <CardHeader title={name} action={<Tooltip title="Edit Budget"><IconButton onClick={onEditClicked}><Edit/></IconButton></Tooltip>}>
         </CardHeader>
         <CardContent>
             <Stack 
+               sx={{overflow: 'auto'}}
                direction={{
                   xs: 'row',
                   sm: 'row',

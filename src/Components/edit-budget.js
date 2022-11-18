@@ -17,9 +17,26 @@ export default function EditBudget(props) {
     const [expenseBudgets, setExpenseBudgets] = useState(expenses);
 
     const [valid, setValid] = useState(budget ? true : false);
-    const [validExpenses, setValidExpense] = useState(true);
-    const [validIncome, setValidIncome] = useState(true);
-    const [isValidName, setIsValidName] = useState(false);
+
+    const isNameValid = (name) => {
+        if(name.length === 0) {
+            return false;
+        } else if (name.length > 100) {
+            return false;
+        } else if (name.length < 3) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    const areExpensesValid = expenses.length > 0 && expenses.every(e => e?.category);
+    const areIncomesValid = incomes.length > 0 && incomes.every(e => e?.category);
+    const validName = isNameValid(name);
+
+    const [validExpenses, setValidExpense] = useState(areExpensesValid);
+    const [validIncome, setValidIncome] = useState(areIncomesValid);
+    const [isValidName, setIsValidName] = useState(validName);
 
 
     const handleSaveClick = () => {
@@ -45,15 +62,7 @@ export default function EditBudget(props) {
     const onNameChange = (event) => {
         const newName = event.target.value;
         setName(newName);
-        let validName = true;
-        if(newName.length === 0) {
-            validName = false;
-        } else if (newName.length > 100) {
-            validName=false;
-        } else if (newName.length < 3) {
-            validName=false;
-        }
-
+        const validName = isNameValid(newName);
         const isValid = validName && areAllCategoriesValid();
         setIsValidName(validName);
         setValid(isValid);
