@@ -18,7 +18,18 @@ export default function MonthSpending() {
     const currentSaved = currentIncome - currentExpenses;
     const saveColor = currentSaved > 0 ? "primary" : "error";
     return (
-        <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginBottom: '10px'}}>
+        <Box sx={{
+            display: 'flex', 
+            flexDirection: { 
+                xs: 'column',
+                sm: 'column',
+                md: 'column',
+                lg: 'row',
+                xl: 'row' 
+            }, 
+            justifyContent: { lg: 'space-around', md: 'start' },
+             marginBottom: '10px'
+             }}>
             <MonthOverview expected={expectedExpenses} current={currentExpenses} currentLabel={"spent"} expectedLabel={"to spend"} color={"error"} />
             <MonthOverview expected={expectedIncome} current={currentIncome} currentLabel={"income"} expectedLabel={"to earn"} />
             <MonthOverview expected={expectedSave} current={currentSaved} currentLabel={"saved"} expectedLabel={"to save"} color={saveColor} />
