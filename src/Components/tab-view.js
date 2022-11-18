@@ -11,12 +11,16 @@ import Budgets from './budgets';
 import Transactions from './transactions';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
+import MainToolbar from "./main-toolbar";
+import { useState } from "react";
 
 const drawerWidth = 240;
 
 export default function TabView() {
     const currentTab = useSelector(selectTab);
     const dispatch = useDispatch();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
     const tabs = [{
         id: 0,
         name: 'Home',
@@ -33,16 +37,30 @@ export default function TabView() {
    
     const onTabChange = (event, value) => {
       if(value) {
-        dispatch(updateTab(value));
+        dispatch(updateTab(parseInt(value)));
       } else {
         dispatch(updateTab(0));
       }
+
+      handleExpandClicked();
     };
 
-    return (<Box sx={{ display: 'flex', width: '100%' }}>
+    const handleExpandClicked = () => {
+      setIsMenuOpen(!isMenuOpen);
+    }
+
+    return (
+    <Box sx={{ display: 'flex', width: '100%', height: '100%' }}>
+      <MainToolbar title='Budgets' showExpand={true} onExpandClicked={handleExpandClicked}/>
       <Drawer
-        variant="permanent"
+        variant="temporary"
+        open={isMenuOpen}
+        onClose={handleExpandClicked}
+        ModalProps={{
+          keepMounted: true, // Better open performance on mobile.
+        }}
         sx={{
+          display: {xs: 'block', sm: 'none'},
           width: drawerWidth,
           flexShrink: 0,
           [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
@@ -63,7 +81,37 @@ export default function TabView() {
           </Tabs>
         </Box>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1 }}>
+      <Drawer
+        variant="permanent"
+        sx={{
+          display: { xs: 'none', sm: 'block' },
+          width: drawerWidth,
+          flexShrink: 0,
+          [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+        }}
+      >
+        <Toolbar />
+        <Box sx={{ overflow: 'auto' }}>
+          <Tabs 
+          orientation="vertical"
+          variant="scrollable"
+          value={currentTab}
+          onChange={onTabChange}>
+            {tabs.map((tab, index) => {
+              return (
+              <Tab key={index} value={tab.id} label={tab.name} />
+              );
+            })}
+          </Tabs>
+        </Box>
+      </Drawer>
+      <Box component="main" sx={{ flexGrow: 1, maxWidth:  {
+        xs: '100%',
+        sm: '100%',
+        md: '100%',
+        lg: `calc(100% - ${drawerWidth})`,
+        xl: `calc(100% - ${drawerWidth})`
+      }}}>
         <Toolbar />
         <TabPanel value={currentTab} index={0}>
           <HomeView />

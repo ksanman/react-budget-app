@@ -14,7 +14,7 @@ export default function BudgetCategoryOverview(props) {
     const color = value === 1 ? 'primary' : value > 1 ? 'error' : 'info';
     const subTitle = budgetCategory.type === 2 ? 'Income' : 'Expense';
     return (
-        <Card>
+        <Card sx={{minWidth: '250px'}}>
             <CardHeader title={budgetCategory.category} subheader={subTitle} />
             <CardContent>
                 <LinearProgress 

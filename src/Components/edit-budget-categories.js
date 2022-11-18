@@ -1,4 +1,5 @@
 import { Box, Button } from "@mui/material";
+import { Stack } from "@mui/system";
 import { useState } from "react";
 import EditBudgetCategory from "./edit-budget-category";
 
@@ -46,8 +47,19 @@ export default function EditBudgetCategories(props) {
     }
 
     return (
-        <Box sx={{width: '100%'}}>
+        <Box sx={{maxWidth: '100%'}}>
             <Button sx={{marginY: '10px'}} variant={'contained'} onClick={handleOnAddBudgetClick}> Add {title}</Button>
+            <Stack
+                sx={{overflow: 'auto'}}
+                direction={{
+                    xs: 'row',
+                    sm: 'row',
+                    md: 'row',
+                    lg: 'row', 
+                    xl: 'column'
+                }}
+                spacing={2}
+            >
             {categories.map((category, index) => {
                 return (
                     <EditBudgetCategory key={index} 
@@ -59,6 +71,7 @@ export default function EditBudgetCategories(props) {
                     />
                 )
             })}
+            </Stack>
         </Box>
     )
 }

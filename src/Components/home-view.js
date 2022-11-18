@@ -6,10 +6,16 @@ import RecentTransactions from "./recent-transactions";
 
 export default function HomeView() {
     return (
-        <Box>
+        <Box sx={{width: '100%'}}>
             <MonthPicker />
             <MonthSpending />
-            <Box sx={{display: 'flex', flexDirection: 'row', width: '100%'}}>
+            <Box sx={{display: 'flex', flexDirection: {
+                xs: 'column',
+                sm: 'column' ,
+                md : 'column',
+                lg: 'column',
+                xl: 'row'
+            }, width: '100%'}}>
                 <BudgetOverview />
                 <RecentTransactions />
             </Box>
