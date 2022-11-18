@@ -36,7 +36,16 @@ export default function BudgetOverview() {
         <CardHeader title={name} action={<Tooltip title="Edit Budget"><IconButton onClick={onEditClicked}><Edit/></IconButton></Tooltip>}>
         </CardHeader>
         <CardContent>
-            <Stack direction={'column'} spacing={2}>
+            <Stack 
+               direction={{
+                  xs: 'row',
+                  sm: 'row',
+                  md: 'row',
+                  lg: 'row',
+                  xl:'column'
+               }}
+               spacing={2}
+            >
                 {categories.map((b, i) => (
                     <BudgetCategoryOverview key={i} 
                         budgetCategory={b}
