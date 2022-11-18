@@ -56,7 +56,7 @@ export default function EditBudgetCategory(props) {
     }
 
     return (
-        <Card>
+        <Card sx={{minWidth: '250px'}}>
           <CardHeader action={<IconButton onClick={handleRemoveClicked}><RemoveCircle /></IconButton>}/>
           <CardContent>
             <CategoryPicker onChange={handleCategoryChange} type={props?.type ?? 0} category={category}/>
