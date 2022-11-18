@@ -9,7 +9,13 @@ export default function HomeView() {
         <Box>
             <MonthPicker />
             <MonthSpending />
-            <Box sx={{display: 'flex', flexDirection: 'row', width: '100%'}}>
+            <Box sx={{display: 'flex', flexDirection: {
+                xs: 'column',
+                sm: 'column' ,
+                md : 'column',
+                lg: 'column',
+                xl: 'row'
+            }, width: '100%'}}>
                 <BudgetOverview />
                 <RecentTransactions />
             </Box>
