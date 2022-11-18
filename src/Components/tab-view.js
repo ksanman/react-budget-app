@@ -11,6 +11,7 @@ import Budgets from './budgets';
 import Transactions from './transactions';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
+import MainToolbar from "./main-toolbar";
 
 const drawerWidth = 240;
 
@@ -39,7 +40,9 @@ export default function TabView() {
       }
     };
 
-    return (<Box sx={{ display: 'flex', width: '100%' }}>
+    return (
+    <Box sx={{ display: 'flex', width: '100%' }}>
+      <MainToolbar title='Budgets' />
       <Drawer
         variant="permanent"
         sx={{
