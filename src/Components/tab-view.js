@@ -48,7 +48,7 @@ export default function TabView() {
     }
 
     return (
-    <Box sx={{ display: 'flex', width: '100%' }}>
+    <Box sx={{ display: 'flex', width: '100%', height: '100%' }}>
       <MainToolbar title='Budgets' showExpand={true} onExpandClicked={handleExpandClicked}/>
       <Drawer
         variant="temporary"
@@ -103,7 +103,13 @@ export default function TabView() {
           </Tabs>
         </Box>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1 }}>
+      <Box component="main" sx={{ flexGrow: 1, maxWidth:  {
+        xs: '100%',
+        sm: '100%',
+        md: '100%',
+        lg: `calc(100% - ${drawerWidth})`,
+        xl: `calc(100% - ${drawerWidth})`
+      }}}>
         <Toolbar />
         <TabPanel value={currentTab} index={0}>
           <HomeView />

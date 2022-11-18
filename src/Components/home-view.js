@@ -6,7 +6,7 @@ import RecentTransactions from "./recent-transactions";
 
 export default function HomeView() {
     return (
-        <Box>
+        <Box sx={{width: '100%'}}>
             <MonthPicker />
             <MonthSpending />
             <Box sx={{display: 'flex', flexDirection: {

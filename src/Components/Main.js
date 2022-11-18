@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 
-import CssBaseline from '@mui/material/CssBaseline';
 import EditBudget from './edit-budget';
 import { useSelector } from 'react-redux';
 import { selectBudgets } from '../slices/budget-slice';
@@ -27,8 +26,7 @@ export default function Main() {
   const view = hasBudgets ? getMainView() : getNoBudgetsView();
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
+    <Box sx={{ display: 'flex', height: '100%', width: '100%'}}>
       {view}
     </Box>
   );

@@ -86,7 +86,16 @@ export default function EditBudget(props) {
             <CardContent>
                 <TextField placeholder="Budget Name" required value={name} onChange={onNameChange} label={'Name'}/>
 
-                <Stack direction={'row'} justifyContent={'center'} alignContent={'stretch'} spacing={2}>
+                <Stack direction={{
+                        xs: 'column',
+                        sm: 'column',
+                        md: 'column',
+                        lg: 'column', 
+                        xl: 'row'
+                    }} 
+                    justifyContent={'center'} 
+                    alignContent={'stretch'} 
+                    spacing={2}>
                     <EditBudgetCategories 
                         title='Expenses' 
                         categories={expenseBudgets}
